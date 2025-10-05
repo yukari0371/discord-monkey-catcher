@@ -22,14 +22,12 @@ const runTask = async () => {
                 if (result.status === "success") {
                     logger.success(`Add Friend: ${user.id}`);
                     try {
-                        const _user = await client.users.fetch(user.id);
-                        const dmChannel = await _user.createDM();
-                        await dmChannel.send(messageContent);
+                        await client.users.send(user.id, messageContent);
                         logger.success(`Advertised: ${user.id}`)
                     } catch (err) {
                         logger.failed(`DM failed: ${user.id} - ${err.message}`);
                     }
-                } else {
+                } else if (result.status === "error") {
                     logger.failed(`Add friend failed: ${user.id}`);
                 }
             }
